@@ -22,11 +22,47 @@ def read(file_stem):
     edge_bnd: boundary marker of each edge
     """
 
+    # TODO: check which mesh files are actually found and determine whether
+    # we're reading a mesh or a PSLG
+
     x, y, bnd = _read_node(file_stem)
     triangles = _read_ele(file_stem)
 
     return x, y, triangles, bnd
 
+
+
+# ------------------
+def write(file_stem, x = None, y = None, bnd = None, triangles = None):
+    """
+    Write out a triangular mesh in Triangle's format.
+
+    Paramters:
+    =========
+    file_stem: the start of the mesh filename; writes the mesh nodes to
+      file_stem.node, the elements to file_stem.ele, etc.
+    x, y: the node positions
+    """
+
+    # TODO: raise a type error if keyword arguments aren't supplied
+
+    num_nodes = len(x)
+    with open(file_stem + ".node", "w") as node_file:
+        node_file.write("{0} 2 0 1\n".format(num_nodes))
+        for i in range(num_nodes):
+            node_file.write("{0:4}\n".format(i+1, x[i], y[i], bnd[i]))
+
+    num_triangles, _ = np.shape(triangles)
+    with open(file_stem + ".ele", "w") as ele_file:
+        ele_file.write("{0} 3 0\n".format(num_triangles))
+        for i in range(num_triangles):
+            t = [k+1 for k in triangles[i]]
+            ele_file.write("{0:4}\n".format(i+1, t[0], t[1], t[2]))
+
+    return
+
+
+# TODO: reading mesh files should skip escaped lines that start with a #
 
 # -----------------------
 def _read_node(file_stem):

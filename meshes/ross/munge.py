@@ -2,6 +2,8 @@
 import scipy.io
 import numpy as np
 
+import formats.triangle
+
 if __name__ == "__main__":
     ross = scipy.io.loadmat("Mesh_RIS.mat")
     num_elements = ross['nel'][0][0]
@@ -15,15 +17,6 @@ if __name__ == "__main__":
     boundary, ice_front = fetch('bdynode'), fetch('icefntnode')
     bnd = boundary + ice_front
 
-    triangles = np.asarray(ross['index'])
+    triangles = np.asarray([[k-1 for k in t] for t in ross['index']])
 
-    with open("ross.1.node", "w") as node:
-        node.write("{0} 2 0 1\n".format(num_nodes))
-        for i in range(num_nodes):
-            node.write("{0} {1} {2} {3}\n".format(i + 1, x[i], y[i], bnd[i]))
-
-    with open("ross.1.ele", "w") as ele:
-        ele.write("{0} 3 0\n".format(num_elements))
-        for i in range(num_elements):
-            t = triangles[i]
-            ele.write("{0} {1} {2} {3}\n".format(i+1, t[0], t[1], t[2]))
+    formats.triangle.write("ross.1", x, y, bnd, triangles)
