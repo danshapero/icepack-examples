@@ -1,0 +1,12 @@
+
+# Ignore python-generated files
+*.py[cod]
+*.o
+*.so
+
+# Ignore archived data
+*.mat
+*.gz
+
+# Ignore downloaded NetCDF files
+*.nc
