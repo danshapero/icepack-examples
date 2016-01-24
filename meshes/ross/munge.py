@@ -3,6 +3,7 @@ import scipy.io
 import numpy as np
 
 import formats.triangle
+import formats.gmsh
 
 if __name__ == "__main__":
     ross = scipy.io.loadmat("Mesh_RIS.mat")
@@ -20,3 +21,4 @@ if __name__ == "__main__":
     triangles = np.asarray([[k-1 for k in t] for t in ross['index']])
 
     formats.triangle.write("ross.1", x, y, bnd, triangles)
+    formats.gmsh.write("ross.msh", x, y, bnd, triangles)

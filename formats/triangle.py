@@ -50,14 +50,14 @@ def write(file_stem, x = None, y = None, bnd = None, triangles = None):
     with open(file_stem + ".node", "w") as node_file:
         node_file.write("{0} 2 0 1\n".format(num_nodes))
         for i in range(num_nodes):
-            node_file.write("{0:4}\n".format(i+1, x[i], y[i], bnd[i]))
+            node_file.write("{0} {1} {2} {3}}\n".format(i+1, x[i], y[i], bnd[i]))
 
     num_triangles, _ = np.shape(triangles)
     with open(file_stem + ".ele", "w") as ele_file:
         ele_file.write("{0} 3 0\n".format(num_triangles))
         for i in range(num_triangles):
             t = [k+1 for k in triangles[i]]
-            ele_file.write("{0:4}\n".format(i+1, t[0], t[1], t[2]))
+            ele_file.write("{0} {1} {2} {3}\n".format(i+1, t[0], t[1], t[2]))
 
     return
 
