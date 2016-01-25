@@ -4,9 +4,8 @@ import numpy as np
 from scipy.sparse import lil_matrix
 from matplotlib.path import Path
 
-import formats.triangle
-import formats.gmsh
-
+import meshes.triangle
+import meshes.gmsh
 
 # ===========================================================================
 # The following routines are used to turn the original triangular mesh of the
@@ -174,8 +173,8 @@ if __name__ == "__main__":
 
     triangles = np.asarray([[k-1 for k in t] for t in ross['index']])
 
-    formats.triangle.write("ross_original.1", x, y, bnd, triangles)
-    formats.gmsh.write("ross_original.msh", x, y, bnd, triangles)
+    meshes.triangle.write("ross_original.1", x, y, bnd, triangles)
+    meshes.gmsh.write("ross_original.msh", x, y, bnd, triangles)
 
     g, index = get_boundary_graph(triangles, bnd)
     components = connected_components(g)
@@ -189,6 +188,6 @@ if __name__ == "__main__":
             bnd_edges.append([component[i], component[(i + 1) % n]])
     bnd_edges = np.asarray(bnd_edges)
 
-    formats.triangle.write_poly("ross.poly",
-                                x[index], y[index], bnd[index],
-                                bnd_edges, xh, yh)
+    meshes.triangle.write_poly("ross.poly",
+                               x[index], y[index], bnd[index],
+                               bnd_edges, xh, yh)
