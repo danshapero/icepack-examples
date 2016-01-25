@@ -50,7 +50,7 @@ def write(file_stem, x = None, y = None, bnd = None, triangles = None):
     with open(file_stem + ".node", "w") as node_file:
         node_file.write("{0} 2 0 1\n".format(num_nodes))
         for i in range(num_nodes):
-            node_file.write("{0} {1} {2} {3}}\n".format(i+1, x[i], y[i], bnd[i]))
+            node_file.write("{0} {1} {2} {3}\n".format(i+1, x[i], y[i], bnd[i]))
 
     num_triangles, _ = np.shape(triangles)
     with open(file_stem + ".ele", "w") as ele_file:
@@ -58,6 +58,35 @@ def write(file_stem, x = None, y = None, bnd = None, triangles = None):
         for i in range(num_triangles):
             t = [k+1 for k in triangles[i]]
             ele_file.write("{0} {1} {2} {3}\n".format(i+1, t[0], t[1], t[2]))
+
+    return
+
+
+# ------------------------------------------------
+def write_poly(filename, x, y, bnd, edges, xh, yh):
+    """
+    Write a planar straight-line graph to a .poly file
+    """
+    with open(filename, "w") as poly_file:
+        num_nodes = len(x)
+        poly_file.write("{0} 2 0 1\n".format(num_nodes))
+
+        for k in range(num_nodes):
+            poly_file.write("{0} {1} {2} {3}\n"
+                            .format(k+1, x[k], y[k], bnd[k]))
+
+        poly_file.write("{0} 1\n".format(num_nodes))
+
+        num_edges, _ = np.shape(edges)
+        for n in range(num_edges):
+            i, j = edges[n, :]
+            poly_file.write("{0} {1} {2} {3}\n"
+                            .format(n+1, i+1, j+1, max(bnd[i], bnd[j])))
+
+        num_holes = len(xh)
+        poly_file.write("{0}\n".format(num_holes))
+        for n in range(num_holes):
+            poly_file.write("{0} {1} {2}\n".format(n+1, xh[n], yh[n]))
 
     return
 
