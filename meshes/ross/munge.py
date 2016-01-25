@@ -4,6 +4,7 @@ from scipy.sparse import lil_matrix
 from matplotlib.path import Path
 
 import meshes.triangle
+import meshes.geo
 
 # ===========================================================================
 # The following routines are used to turn the original triangular mesh of the
@@ -174,3 +175,5 @@ if __name__ == "__main__":
     meshes.triangle.write_poly("ross.poly",
                                x[index], y[index], bnd[index],
                                bnd_edges, xh, yh)
+
+    meshes.geo.write("ross.geo", x[index], y[index], components)
