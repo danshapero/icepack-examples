@@ -50,8 +50,16 @@ def get_boundary_graph(triangles, bnd):
         for k in range(3):
             i, j = triangle[k], triangle[(k + 1) % 3]
             if bnd[i] != 0 and bnd[j] != 0:
-                weight = max(bnd[i], bnd[j])
                 I, J = index_inverse[[i, j]]
+                # Assign a weight to the edge if it's on the boundary. However,
+                # just because both vertices of the edge are on the boundary
+                # doesn't mean that the edge is! If the current triangle is on
+                # a corner, we could have an internal edge, both of whose
+                # vertices are on the triangulation boundary. If it is internal
+                # then we'll see it twice at some point though, so we can
+                # subtract off the current weight and get rid of the erroneous
+                # edge eventually.
+                weight = max(bnd[i], bnd[j]) - g[I, J]
                 g[I, J] = weight
                 g[J, I] = weight
 

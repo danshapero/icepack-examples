@@ -15,11 +15,8 @@ def read(file_stem):
     Returns:
     =======
     x, y: coordinates of the mesh points
-    ele: (num_triangles, 3)-array of nodes in each triangle
-    edge: (num_edges, 2)-array of nodes on each edge
-    neigh: (num_triangles, 3)-array of neighboring triangles of each triangle
+    triangles: (num_triangles, 3)-array of nodes in each triangle
     bnd: boundary marker of each node
-    edge_bnd: boundary marker of each edge
     """
 
     # TODO: check which mesh files are actually found and determine whether
