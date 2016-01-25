@@ -1,11 +1,9 @@
 
-import scipy.io
 import numpy as np
 from scipy.sparse import lil_matrix
 from matplotlib.path import Path
 
 import meshes.triangle
-import meshes.gmsh
 
 # ===========================================================================
 # The following routines are used to turn the original triangular mesh of the
@@ -159,22 +157,7 @@ def get_holes(components, outermost_component, index, x, y):
 
 
 if __name__ == "__main__":
-    ross = scipy.io.loadmat("Mesh_RIS.mat")
-    num_elements = ross['nel'][0][0]
-    num_nodes = ross['nods'][0][0]
-
-    def fetch(key):
-        return np.asarray([dat[0] for dat in ross[key]])
-
-    x, y = fetch('x'), fetch('y')
-
-    boundary, ice_front = fetch('bdynode'), fetch('icefntnode')
-    bnd = boundary + ice_front
-
-    triangles = np.asarray([[k-1 for k in t] for t in ross['index']])
-
-    meshes.triangle.write("ross_original.1", x, y, bnd, triangles)
-    meshes.gmsh.write("ross_original.msh", x, y, bnd, triangles)
+    x, y, triangles, bnd = meshes.triangle.read("ross_original.1")
 
     g, index = get_boundary_graph(triangles, bnd)
     components = connected_components(g)
