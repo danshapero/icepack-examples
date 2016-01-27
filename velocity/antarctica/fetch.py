@@ -1,9 +1,11 @@
 
+import os
 import sys
 import urllib.request
 
-url = "ftp://n5eil01u.ecs.nsidc.org/SAN/MEASURES/NSIDC-0484.001/1996.01.01/antarctica_ice_velocity_450m.nc"
-filename = "antarctica_ice_velocity_450m.nc"
+url = "ftp://n5eil01u.ecs.nsidc.org/SAN/MEASURES/NSIDC-0484.001/1996.01.01/"
+big_file   = "antarctica_ice_velocity_450m.nc"
+small_file = "antarctica_ice_velocity_900m.nc"
 
 def progress_bar_hook(block_num, block_size, total_size):
     read_so_far = block_num * block_size
@@ -19,5 +21,9 @@ def progress_bar_hook(block_num, block_size, total_size):
         sys.stderr.write("read %d\n" % (read_so_far,))
 
 if __name__ == "__main__":
-    urllib.request.urlretrieve(url, filename, progress_bar_hook)
+    if not os.path.exists(big_file):
+        urllib.request.urlretrieve(url + big_file, big_file, progress_bar_hook)
+
+    if not os.path.exists(small_file):
+        urllib.request.urlretrieve(url + small_file, small_file, progress_bar_hook)
 
