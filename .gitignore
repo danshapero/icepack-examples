@@ -10,3 +10,9 @@
 
 # Ignore downloaded NetCDF files
 *.nc
+
+# Ignore generated XML files from QGIS
+*.xml
+
+# Ignore generated DEMs
+*.txt

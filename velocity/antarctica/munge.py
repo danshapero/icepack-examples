@@ -35,8 +35,8 @@ if __name__ == "__main__":
         x = np.linspace(Xmin + jmin * dx, Xmin + jmax * dx, jmax - jmin, False)
         y = np.linspace(Ymax - imin * dx, Ymax - imax * dx, imin - imax, False)
 
-        arcinfo.write(name + "-vx.txt", x, y, vx, -2.0e+9)
-        arcinfo.write(name + "-vy.txt", x, y, vy, -2.0e+9)
-        arcinfo.write(name + "-err.txt", x, y, err, -2.0e+9)
+        arcinfo.write(name.lower() + "-vx.txt", x, y, vx, -2.0e+9)
+        arcinfo.write(name.lower() + "-vy.txt", x, y, vy, -2.0e+9)
+        arcinfo.write(name.lower() + "-err.txt", x, y, err, -2.0e+9)
 
     velocity_data.close()
