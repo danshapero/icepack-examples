@@ -3,7 +3,7 @@ This repository contains scripts I've used for processing various glaciological 
 Here's hoping I can save you the aggravation of doing this yourself.
 
 
-## DEMs, velocity maps
+### DEMs, velocity maps
 
 Most of these come from the [National Snow and Ice Data Center (NSIDC)](http://www.nsidc.org) or the [Center for Remote Sensing of Ice Sheets (CReSIS)](https://www.cresis.ku.edu/).
 For each data source, I include a script `fetch.py` for retrieving it from wherever it originated and another script `munge.py` for extracting what I need from it or other processing.
