@@ -1,5 +1,6 @@
 
 import os
+import sys
 import urllib.request
 
 filenames = ["krigged_dem_errormap_nsidc.bin",
@@ -13,3 +14,4 @@ if __name__ == "__main__":
             f = filename + ext
             if not os.path.exists(f):
                 urllib.request.urlretrieve(url + f, f)
+        print("Done downloading " + filename)
