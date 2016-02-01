@@ -4,6 +4,7 @@ import math
 from osgeo import gdal
 import numpy as np
 
+import regions
 from gis import arcinfo
 
 if __name__ == "__main__":
@@ -17,9 +18,7 @@ if __name__ == "__main__":
     raster_band = dem.GetRasterBand(1)
     s = raster_band.ReadAsArray()
 
-    regions = json.loads(open("regions.json", 'r').read())
-
-    for name, region in regions.items():
+    for name, region in regions.antarctica.items():
         xmin, xmax = region['x']
         ymin, ymax = region['y']
 

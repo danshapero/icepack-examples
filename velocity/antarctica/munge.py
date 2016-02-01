@@ -1,22 +1,19 @@
 
 import numpy as np
 import netCDF4
-import json
 import math
 
+import regions
 from gis import arcinfo
 
 
 if __name__ == "__main__":
-    # Read in a JSON file describing some interesting regions on the ice sheet
-    regions = json.loads(open("regions.json", 'r').read())
-
     velocity_data = netCDF4.Dataset("antarctica_ice_velocity_900m.nc", "r")
 
     Xmin, Ymax = float(velocity_data.xmin[:-1]), float(velocity_data.ymax[:-1])
     dx = float(velocity_data.spacing[:-1])
 
-    for name, region in regions.items():
+    for name, region in regions.antarctica.items():
         xmin, xmax = region['x']
         ymin, ymax = region['y']
 
