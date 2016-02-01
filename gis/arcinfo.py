@@ -17,6 +17,9 @@ def write(filename, x, y, data, missing):
     nx = len(x)
     ny = len(y)
 
+    if (ny, nx) != np.shape(data):
+        raise Exception()
+
     with open(filename, "w") as fid:
         fid.write("ncols           {0}\n".format(nx))
         fid.write("nrows           {0}\n".format(ny))

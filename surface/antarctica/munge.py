@@ -14,7 +14,8 @@ if __name__ == "__main__":
     dx, dy = gt[1], gt[5]
 
     nx, ny = dem.RasterXSize, dem.RasterYSize
-    s = dem.GetRasterBand(1).ReadAsArray()
+    raster_band = dem.GetRasterBand(1)
+    s = raster_band.ReadAsArray()
 
     regions = json.loads(open("regions.json", 'r').read())
 
@@ -28,9 +29,9 @@ if __name__ == "__main__":
         jmax = int(math.ceil((xmax - Xmin) / dx))
         jmin = int(math.floor((xmin - Xmin) / dx))
 
-        S = (s[imax:imin, jmin:jmax])[::-1,:]
+        s_region = (s[imax:imin, jmin:jmax])[::-1,:]
 
         x = np.linspace(Xmin + jmin*dx, Xmin + jmax*dx, jmax - jmin, False)
         y = np.linspace(Ymax - imin*dx, Ymax - imax*dx, imin - imax, False)
 
-        arcinfo.write(name.lower() + "-s.txt", x, y, s, -2.0e+9)
+        arcinfo.write(name.lower() + "-s.txt", x, y, s_region, -999.0)

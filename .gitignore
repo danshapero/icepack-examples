@@ -16,3 +16,13 @@
 
 # Ignore generated DEMs
 *.txt
+
+# Ignore binary files and ENVI headers
+*.bin
+*.hdr
+
+# Ignore Triangle meshes
+*.node
+*.ele
+*.edge
+*.neigh
