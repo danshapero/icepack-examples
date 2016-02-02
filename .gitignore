@@ -27,3 +27,6 @@
 *.ele
 *.edge
 *.neigh
+
+# Ignore any saved plots
+*.png
