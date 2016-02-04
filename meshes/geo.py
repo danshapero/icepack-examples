@@ -37,16 +37,26 @@ def write(filename, x, y, components):
         # Write out line loops for each component of the boundary
         plane_surface = []
         for loop in line_loops:
+            # First write the line loop
             geo_file.write("Line Loop({0}) = {{{1}"
                            .format(count, loop[0]))
-
-            plane_surface.append(count)
 
             for k in range(1, len(loop)):
                 geo_file.write(", {0}".format(loop[k]))
 
             geo_file.write("};\n")
-            count += 1
+
+            # Then make a compound line for mesh simplification
+            geo_file.write("Compound Line({0}) = {{{1}"
+                           .format(count + 1, loop[0]))
+
+            for k in range(1, len(loop)):
+                geo_file.write(", {0}".format(loop[k]))
+
+            geo_file.write("};\n")
+
+            plane_surface.append(count)
+            count += 2
         geo_file.write("\n")
 
         # Write out a plane surface containing all of the line loops
@@ -54,4 +64,7 @@ def write(filename, x, y, components):
                        .format(count, plane_surface[0]))
         for k in range(1, len(plane_surface)):
             geo_file.write(", {0}".format(plane_surface[k]))
-        geo_file.write("};\n")
+        geo_file.write("};\n\n")
+
+        geo_file.write("Mesh.RecombineAll=1;\n")
+        geo_file.write("Mesh.Algorithm=8;\n")
