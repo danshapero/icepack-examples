@@ -1,44 +1,36 @@
 
 import numpy as np
-from numpy.linalg import eig
-
-# -------------------------------------------------
-def extract_segment(k1, k2, component, index, x, y):
-    if k1 < k2:
-        return x[index[component[k1:k2]]], y[index[component[k1:k2]]]
-
-    X1, Y1 = x[index[component[k1:]]], y[index[component[k1:]]]
-    X2, Y2 = x[index[component[:k2]]], y[index[component[:k2]]]
-
-    return np.concatenate([X1, X2]), np.concatenate([Y1, Y2])
+from numpy.linalg import det
 
 
-# -------------------------------------
-def straightness(k1, k2, component, index, x, y):
-    X, Y = extract_segment(k1, k2, component, index, x, y)
-    L, _ = eig(np.cov(X, Y))
-    return L[1] / L[0]
+def dist(p1, p2, p3):
+    return np.sqrt(0.5 * np.abs(det(np.array([p2 - p1, p3 - p1]))))
 
 
-# --------------------------------------------------------
-def longest_linear_segment(K, component, index, x, y, tol):
+# --------------------------------------
+def ramer_douglas_peucker(x, y, epsilon):
     """
-    Given a component of a PSLG and a starting index, return the indices of the
-    longest segment of the input comonent which is close to linear
+    Given an input curve, simplify it using the Ramer-Douglas-Peucker algorithm
+    and return a mask of boolean values indicating which points to keep
     """
-    n = len(component)
+    n = len(x)
 
-    k1 = K
-    k2 = (k1 + 2) % n
+    mask = np.zeros(n, dtype = bool)
+    mask[0] = True
+    mask[-1] = True
+    stack = [(0, n-1)]
+    while stack:
+        k1, k2 = stack.pop()
 
-    while True:
-        if straightness(k1, (k2 + 1) % n, component, index, x, y) > tol:
-            break
-        k2 = (k2 + 1) % n
+        p1 = np.array([x[k1], y[k1]])
+        p2 = np.array([x[k2], y[k2]])
 
-    while True:
-        if straightness((k1 - 1) % n, k2, component, index, x, y) > tol:
-            break
-        k1 = (k1 - 1) % n
+        k = np.argmax([dist(p1, p2, np.array([x[i], y[i]]))
+                       for i in range(k1, k2)]) + k1
 
-    return k1, k2
+        if dist(p1, p2, np.array([x[k], y[k]])) > epsilon:
+            mask[k] = True
+            stack.append((k1, k))
+            stack.append((k, k2))
+
+    return mask
