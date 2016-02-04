@@ -157,6 +157,7 @@ def get_holes(components, outermost_component, index, x, y):
     return np.array(xh), np.array(yh)
 
 
+# -----------------------
 if __name__ == "__main__":
     x, y, triangles, bnd = meshes.triangle.read("ross_original.1")
 
