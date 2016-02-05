@@ -61,6 +61,6 @@ def read(filename):
         data = np.zeros((ny, nx), dtype = np.float64)
 
         for i in range(ny-1, -1, -1):
-            data[i, :] = map(float, fid.readline().split())
+            data[i, :] = [float(q) for q in fid.readline().split()]
 
         return x, y, data, missing

@@ -113,7 +113,7 @@ def _read_ele(file_stem):
         triangles = np.zeros((num_triangles, 3), dtype = np.int32)
 
         for i in range(num_triangles):
-            triangles[i, :] = [k - 1 for k in
-                               map(int, ele_file.readline().split()[1:])]
+            triangles[i, :] = [int(k) - 1 for k in
+                               ele_file.readline().split()[1:]]
 
     return triangles
