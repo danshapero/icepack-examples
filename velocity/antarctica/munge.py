@@ -25,12 +25,25 @@ if __name__ == "__main__":
         jmax = int(math.ceil((xmax - Xmin) / dx))
         jmin = int(math.floor((xmin - Xmin) / dx))
 
+        ny, nx = imin - imax, jmax - jmin
+
         vx = (velocity_data['vx'][imax:imin, jmin:jmax])[::-1,:]
         vy = (velocity_data['vy'][imax:imin, jmin:jmax])[::-1,:]
-        err = (velocity_data['err'][imax:imin, jmin:jmax])[::-1,:]
 
-        x = np.linspace(Xmin + jmin * dx, Xmin + jmax * dx, jmax - jmin, False)
-        y = np.linspace(Ymax - imin * dx, Ymax - imax * dx, imin - imax, False)
+        err = np.zeros((ny, nx), dtype = np.float64)
+        err[:,:] = (velocity_data['err'][imax:imin, jmin:jmax])[::-1,:]
+
+        # Anything where the error is 0.0 is really missing data, so fill this
+        # in with a tag value
+        for i in range(ny):
+            for j in range(nx):
+                if err[i, j] == 0.0:
+                    err[i, j] = -2.0e+9
+                    vx[i, j] = -2.0e+9
+                    vy[i, j] = -2.0e+9
+
+        x = np.linspace(Xmin + jmin * dx, Xmin + jmax * dx, nx, False)
+        y = np.linspace(Ymax - imin * dx, Ymax - imax * dx, ny, False)
 
         arcinfo.write(name.lower() + "-vx.txt", x, y, vx, -2.0e+9)
         arcinfo.write(name.lower() + "-vy.txt", x, y, vy, -2.0e+9)
