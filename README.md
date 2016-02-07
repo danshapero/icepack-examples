@@ -19,6 +19,7 @@ The meshes are all stored either in either or both of two formats:
 * the `.geo` and `.msh` formats used by [gmsh](http://gmsh.info/).
 
 I drew some of the mesh outlines by hand in QGIS from a combination Landsat 8 imagery and whichever data sets I was using; some of them come from around the internet.
+If I hand-drew the mesh, I include any hand-drawn geometries in GeoJSON format as well as scripts for combining the geometries into the mesh boundary.
 If someone else made the mesh and it's somewhere on the internet, I include scripts for fetching the original mesh and whatever I used to convert that mesh from its original format.
 
 
@@ -29,6 +30,7 @@ If someone else made the mesh and it's somewhere on the internet, I include scri
 * osgeo
 * GDAL
 * netCDF
+* geojson
 * zlib
 
 Other programs that are useful:
