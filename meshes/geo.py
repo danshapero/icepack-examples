@@ -82,7 +82,7 @@ def write(filename, Xs, successors, dx = 1.0e+22, quad = False):
         geo_file.write("\n")
 
         # Write out a plane surface for the whole PSLG
-        geo_file.write("Plane Surface({0}) = {{{1}}};\n"
+        geo_file.write("Plane Surface({0}) = {{{1}}};\n\n"
                        .format(line_loop_count,
                                ', '.join([str(k) for k in plane_surface])))
 
@@ -90,3 +90,4 @@ def write(filename, Xs, successors, dx = 1.0e+22, quad = False):
             geo_file.write("Recombine Surface{{{0}}};\n"
                            .format(line_loop_count))
             geo_file.write("Mesh.SubdivisionAlgorithm=1;\n")
+            geo_file.write("Mesh.Algorithm=8;\n")
