@@ -15,6 +15,26 @@ def is_missing(m, q, i, j):
     return m in [q[i, j], q[i+1, j], q[i, j+1], q[i+1, j+1]]
 
 
+def bilinear_interp(x, y, q, missing, X, Y):
+    i, j = index_of_point(x, y, X, Y)
+
+    if i == -1 or j == -1:
+        return missing
+
+    if is_missing(missing, q, i, j):
+        return missing
+
+    ax = (X - x[j]) / (x[1] - x[0])
+    ay = (Y - y[i]) / (y[1] - y[0])
+
+    dx_q = q[i, j+1] - q[i, j]
+    dy_q = q[i+1, j] - q[i, j]
+    dx_dy_q = q[i, j] + q[i+1, j+1] - q[i+1, j] - q[i, j+1]
+
+    return q[i, j] + ax * dx_q + ay * dy_q + ax * ay * dx_dy_q
+
+
+
 def regrid(x, y, q, missing, X, Y):
     """
     Interpolate a gridded data set `x, y, q` to a new grid `X, Y`
@@ -27,13 +47,6 @@ def regrid(x, y, q, missing, X, Y):
 
     for I in range(nY):
         for J in range(nX):
-            i, j = index_of_point(x, y, X[J], Y[I])
-            if not is_missing(missing, q, i, j):
-                ax = (X[J] - x[j]) / dx
-                ay = (Y[I] - y[i]) / dy
-                dx_q = q[i, j+1] - q[i, j]
-                dy_q = q[i+1, j] - q[i, j]
-                dx_dy_q = q[i, j] + q[i+1, j+1] - q[i+1, j] - q[i, j+1]
-                Q[I, J] = q[i, j] + ax * dx_q + ay * dy_q + ax * ax * dx_dy_q
+            Q[I, J] = bilinear_interp(x, y, q, missing, X[J], Y[I])
 
     return Q
