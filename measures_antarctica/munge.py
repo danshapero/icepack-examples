@@ -1,10 +1,17 @@
 
 import numpy as np
 import netCDF4
+import geojson
 import math
 
-import regions
-from gis import arcinfo
+from icepack.grid import arcinfo, GridData
+
+
+def get_feature_name(geojson_obj):
+    return geojson_obj['properties']['name']
+
+def get_feature_bounding_box(geojson_obj):
+    return geojson_obj['geometry']['coordinates']
 
 
 if __name__ == "__main__":
@@ -13,9 +20,15 @@ if __name__ == "__main__":
     Xmin, Ymax = float(velocity_data.xmin[:-1]), float(velocity_data.ymax[:-1])
     dx = float(velocity_data.spacing[:-1])
 
-    for name, region in regions.antarctica.items():
-        xmin, xmax = region['x']
-        ymin, ymax = region['y']
+    with open("../regions/antarctica.geojson", "r") as geojson_file:
+        regions = geojson.loads(geojson_file.read())
+
+    for obj in regions['features']:
+        name = get_feature_name(obj)
+        bounding_box = get_feature_bounding_box(obj)
+
+        xmin, ymin = bounding_box[0]
+        xmax, ymax = bounding_box[1]
 
         # The data in the netCDF file are stored upside-down in the `y`-
         # direction, making everything very confusing
@@ -45,8 +58,8 @@ if __name__ == "__main__":
         x = np.linspace(Xmin + jmin * dx, Xmin + jmax * dx, nx, False)
         y = np.linspace(Ymax - imin * dx, Ymax - imax * dx, ny, False)
 
-        arcinfo.write(name.lower() + "-vx.txt", x, y, vx, -2.0e+9)
-        arcinfo.write(name.lower() + "-vy.txt", x, y, vy, -2.0e+9)
-        arcinfo.write(name.lower() + "-err.txt", x, y, err, -2.0e+9)
+        arcinfo.write(name.lower() + "-vx.txt", GridData(x, y, vx, -2.0e+9))
+        arcinfo.write(name.lower() + "-vy.txt", GridData(x, y, vy, -2.0e+9))
+        arcinfo.write(name.lower() + "-err.txt", GridData(x, y, err, -2.0e+9))
 
     velocity_data.close()

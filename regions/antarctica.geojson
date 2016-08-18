@@ -1,0 +1,46 @@
+{
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "urn:ogc:def:crs:EPSG::3031"
+    }
+  },
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "geometry": {
+        "coordinates": [ [1000000.0, 250000.0], [2500000.0, 1250000.0] ],
+        "type": "LineString"
+      },
+      "type": "Feature",
+      "properties": {"name": "Amery"}
+    },
+
+    {
+      "geometry": {
+        "coordinates": [ [-2000000.0, -1000000.0], [-1000000.0, 0.0] ],
+        "type": "LineString"
+      },
+      "type": "Feature",
+      "properties": {"name": "Amundsen"}
+    },
+
+    {
+      "geometry": {
+        "coordinates": [ [-1750000.0, 0.0], [250000.0, 1250000.0] ],
+        "type": "LineString"
+      },
+      "type": "Feature",
+      "properties": {"name": "Filchner-Ronne"}
+    },
+
+    {
+      "geometry": {
+        "coordinates": [ [-1000000.0, -1500000.0], [750000.0, 0.0] ],
+        "type": "LineString"
+      },
+      "type": "Feature",
+      "properties": {"name": "Ross"}
+    }
+  ]
+}

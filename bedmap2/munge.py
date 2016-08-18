@@ -2,9 +2,17 @@
 import math
 from osgeo import gdal
 import numpy as np
+import geojson
 
-import regions
-from gis import arcinfo
+from icepack.grid import arcinfo, GridData
+
+
+def get_feature_name(geojson_obj):
+    return geojson_obj['properties']['name']
+
+def get_feature_bounding_box(geojson_obj):
+    return geojson_obj['geometry']['coordinates']
+
 
 if __name__ == "__main__":
     dem = gdal.Open("bedmap2_bin/bedmap2_thickness.flt")
@@ -20,9 +28,15 @@ if __name__ == "__main__":
 
     mask = icemask.GetRasterBand(1).ReadAsArray()
 
-    for name, region in regions.antarctica.items():
-        xmin, xmax = region['x']
-        ymin, ymax = region['y']
+    with open("../regions/antarctica.geojson", "r") as geojson_file:
+        regions = geojson.loads(geojson_file.read())
+
+    for obj in regions['features']:
+        name = get_feature_name(obj)
+        bounding_box = get_feature_bounding_box(obj)
+
+        xmin, ymin = bounding_box[0]
+        xmax, ymax = bounding_box[1]
 
         imax = int(math.floor((Ymax - ymax) / dx))
         imin = int(math.ceil((Ymax - ymin) / dx))
@@ -36,5 +50,7 @@ if __name__ == "__main__":
         x = np.linspace(Xmin + jmin*dx, Xmin + jmax*dx, jmax - jmin, False)
         y = np.linspace(Ymax - imin*dx, Ymax - imax*dx, imin - imax, False)
 
-        arcinfo.write(name.lower() + "-h.txt", x, y, h_region, no_data)
-        arcinfo.write(name.lower() + "-mask.txt", x, y, mask_region, no_data)
+        arcinfo.write(name.lower() + "-h.txt",
+                      GridData(x, y, h_region, no_data))
+        arcinfo.write(name.lower() + "-mask.txt",
+                      GridData(x, y, mask_region, no_data))
