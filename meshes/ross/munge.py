@@ -1,7 +1,6 @@
 
-import numpy as np
 import geojson
-from meshes import stitch, geo
+from icepack.mesh import stitch, geo
 
 
 # ----------------------------

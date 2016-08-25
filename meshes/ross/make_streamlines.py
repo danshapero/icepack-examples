@@ -1,24 +1,22 @@
 
-from gis import arcinfo
-from meshes import streamlines as sl
+from icepack.grid import arcinfo
+import streamlines as sl
 import numpy as np
 import geojson
 
 if __name__ == "__main__":
-    with open("ross_front.geojson", "r") as inflow:
-        text = inflow.read()
-
-    raw_json = geojson.loads(text)
+    raw_json = geojson.loads(open("ross_front.geojson", "r").read())
     X0 = np.array(raw_json['features'][0]['geometry']['coordinates'])
 
     x0, y0 = X0[:,0], X0[:,1]
 
-    x, y, vx, missing = arcinfo.read("../../velocity/antarctica/ross-vx.txt")
-    x, y, vy, missing = arcinfo.read("../../velocity/antarctica/ross-vy.txt")
+    vx = arcinfo.read("../../measures_antarctica/ross-vx.txt")
+    vy = arcinfo.read("../../measures_antarctica/ross-vy.txt")
 
-    Vx, Vy = (vx != missing) * vx, (vy != missing) * vy
+    mask = vx.data != vx.missing
+    Vx, Vy = mask * vx.data, mask * vy.data
 
-    S = [sl.streamline(x, y, Vx, Vy, X0, Y0, -1) for (X0, Y0) in zip(x0, y0)]
+    S = [sl.streamline(vx.x, vx.y, Vx, Vy, X0, Y0, -1) for (X0, Y0) in zip(x0, y0)]
 
     features = [geojson.Feature(geometry = geojson.LineString(s)) for s in S]
     feature_collection = geojson.FeatureCollection(features,
