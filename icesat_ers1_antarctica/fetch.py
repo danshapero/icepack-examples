@@ -1,7 +1,5 @@
 
-import os
-import sys
-import urllib.request
+import icepack.util
 
 filenames = ["krigged_dem_errormap_nsidc.bin",
              "krigged_dem_nsidc.bin"]
@@ -12,6 +10,4 @@ if __name__ == "__main__":
     for filename in filenames:
         for ext in ["", ".hdr"]:
             f = filename + ext
-            if not os.path.exists(f):
-                urllib.request.urlretrieve(url + f, f)
-        print("Done downloading " + filename)
+            icepack.util.fetch(url + f, f)

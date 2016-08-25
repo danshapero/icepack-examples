@@ -1,12 +1,13 @@
 
 import json
-from urllib.request import urlopen, urlretrieve
 import urllib.request
 import os
 
+import icepack.util
+
 
 def fetch(url):
-    return urlopen(url).read().decode('utf-8').split()
+    return urllib.request.urlopen(url).read().decode('utf-8').split()
 
 
 month_numbers = {"Jan": "01", "Feb": "02", "Mar": "03", "Apr": "04",
@@ -26,12 +27,12 @@ if __name__ == "__main__":
 
     regions = json.loads(open("regions.json", 'r').read())
 
-    for name, region in regions.items():
+    for name, coord in regions.items():
         if not os.path.exists(name):
             os.makedirs(name)
 
-        r = region[0] + "coast-" + region[1:] + "/"
-        subdirectories = [s for s in fetch(nsidc + r) if "TSX" in s]
+        region = coord[0] + "coast-" + coord[1:] + "/"
+        subdirectories = [s for s in fetch(nsidc + region) if "TSX" in s]
 
         for subdirectory in subdirectories:
             s = subdirectory[len("TSX_"):]
@@ -39,10 +40,11 @@ if __name__ == "__main__":
             date1 = convert_date(s[:n])
             date2 = convert_date(s[n + 1: 2*n + 1])
 
-            files = [s for s in fetch(nsidc + r + subdirectory) if "TSX" in s]
+            files = [s for s in fetch(nsidc + region + subdirectory) if "TSX" in s]
 
             for f in files:
                 ext = f[-len(".vx.tif"):]
+                url = nsidc + region + subdirectory + "/" + f
+                filename = name + "/" + date1 + "_" + date2 + ext
+                icepack.util.fetch(url, filename, show_progress = False)
                 print(f, flush = True)
-                urlretrieve(nsidc + r + subdirectory + "/" + f,
-                            name + "/" + date1 + "_" + date2 + ext)
