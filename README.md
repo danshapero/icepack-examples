@@ -2,6 +2,8 @@
 This repository contains scripts I've used for processing various glaciological data and computational meshes as part of my research.
 Here's hoping I can save you the aggravation of doing this yourself.
 
+The processed data sets are used as inputs for example programs demonstrating the functionality of the glacier flow modelling library [icepack](http://github.com/danshapero/icepack).
+
 
 ### DEMs, velocity maps
 
@@ -32,14 +34,14 @@ If someone else made the mesh and it's somewhere on the internet, I include scri
 * netCDF
 * geojson
 * zlib
+* gmsh
+* [icepack](http://github.com/danshapero/icepack.git)
 
-Other programs that are useful:
-
-* [gmsh](http://gmsh.info/) and [Triangle](https://www.cs.cmu.edu/~quake/triangle.html/), 2D unstructured mesh generators
-* [tethex](https://github.com/martemyev/tethex) converts triangular meshes into quad meshes, such as would be used in [deal.II](http://github.com/dealii/dealii)
+The python helper scripts included with icepack must be installed somewhere on your `PYTHONPATH`, e.g. in `$HOME/.local` or `/usr/local/`.
 
 
 ### Rationale
 
 I regularly work from 3 different computers with butt in chair, and 2/3 others over SSH, so putting all data and mesh munging into one version-controlled repository that I can easily sync between them is time saved.
+Additionally, the processed data sets are used in the example programs for icepack.
 Also, I believe as a matter of principle that all workflows should be reproducible and the provenance of all data should be easily trackable.
