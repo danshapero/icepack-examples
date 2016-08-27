@@ -18,6 +18,9 @@
 # Ignore generated DEMs
 *.txt
 
+# Don't ignore any CMakeLists files
+!CMakeLists.txt
+
 # Ignore binary files and ENVI headers
 *.bin
 *.hdr
