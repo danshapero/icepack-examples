@@ -1,0 +1,30 @@
+# Items related to the project (currently only the name)
+project:
+   name: Icepack Example 02
+# How verbose we want Pycoon to be
+verbosity: null 
+# Items related to file handling
+files:
+   # Files Pyccoon will skip when generating the documentation.
+   # Must be a list of regular expressions (not glob patterns!)
+   skip:
+       - "doc"
+       - "\\.git*"
+       - ".+\\.pyc"
+       - "CMakeLists.txt"
+       - "data.hpp"
+   # Files that Pyccoon will copy literally
+   copy:
+       - "pyccoon.svg"
+       - ".+\\css"
+       - "\\.pyccoon.yaml"
+# Items related to generation of HTML docs
+documentation:
+   mathjax: true
+   # Can be either "pre-wrap" or "normal". Default is "normal"
+   #  - "pre-wrap" respects line breaks
+   linebreaking-behavior: normal
+   # A path to a CSS file or 'null' (the default)
+   css-path: null
+   # A path to a HTML file or 'null' (the default)
+   custom-html-template: null
