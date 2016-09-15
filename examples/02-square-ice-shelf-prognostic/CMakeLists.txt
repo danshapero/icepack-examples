@@ -24,7 +24,8 @@ set(TARGET
   ice_shelf_prognostic)
 
 set(SOURCES
-  ice_shelf_prognostic.cpp)
+  ice_shelf_prognostic.cpp
+  data.cpp)
 
 include_directories(${PROJECT_SOURCE_DIR})
 add_executable(${TARGET} ${SOURCES})
