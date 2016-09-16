@@ -14,6 +14,11 @@ using icepack::readArcAsciiGrid;
 
 int main(int argc, char ** argv)
 {
+  if (argc < 5) {
+    std::cout << "Wrong number of args!" << std::endl;
+    return 1;
+  }
+
   // Read in some command-line arguments indicating where to find the mesh and
   // the input data.
   const std::string mesh_filename = argv[1];
@@ -48,6 +53,9 @@ int main(int argc, char ** argv)
   // Solve the diagnostic equations for the ice velocity we would get with this
   // temperature.
   const VectorField<2> v = ice_shelf.diagnostic_solve(h, theta, vo);
+
+  std::cout << "Final residual: " << norm(ice_shelf.residual(h, theta, v, tau_d))
+            << std::endl;
 
   // Write out the results to a file.
   v.write("v.ucd", "v");
