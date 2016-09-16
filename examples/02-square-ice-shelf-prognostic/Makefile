@@ -10,6 +10,9 @@ ice_shelf_prognostic: ice_shelf_prognostic.cpp data.cpp
 run: ice_shelf_prognostic
 	./ice_shelf_prognostic
 
+doc: ice_shelf_prognostic.cpp
+	pyccoon -s ./ -d doc
+
 clean:
-	rm -rf build ice_shelf_prognostic *.ucd
+	rm -rf build doc ice_shelf_prognostic *.ucd
 

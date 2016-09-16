@@ -10,6 +10,9 @@ ice_shelf_inverse: ice_shelf_inverse.cpp data.cpp
 run: ice_shelf_inverse
 	./ice_shelf_inverse
 
+doc: ice_shelf_inverse.cpp
+	pyccoon -d doc -s ./
+
 clean:
-	rm -rf build ice_shelf_inverse *.ucd
+	rm -rf build doc ice_shelf_inverse *.ucd
 

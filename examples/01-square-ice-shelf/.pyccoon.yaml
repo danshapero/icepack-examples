@@ -1,5 +1,5 @@
 project:
-   name: Icepack Example 02
+   name: Icepack Example 01
 verbosity: null
 files:
    skip:
@@ -10,7 +10,6 @@ files:
        - ".+\\.pyc"
        - "CMakeLists.txt"
        - "Makefile"
-       - "data.hpp"
    copy:
        - "pyccoon.svg"
        - ".+\\css"

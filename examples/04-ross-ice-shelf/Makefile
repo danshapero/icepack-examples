@@ -19,5 +19,8 @@ ross-h.txt: ../../data/bedmap2/ross-h.txt ross.msh
 run: ross_ice_shelf ross.msh ross-h.txt ross-vx.txt ross-vy.txt
 	./ross_ice_shelf ross.msh ross-h.txt ross-vx.txt ross-vy.txt
 
+doc: ross_ice_shelf.cpp
+	pyccoon -d doc -s ./
+
 clean:
-	rm -rf build ross_ice_shelf ross.msh ross-h.txt ross-vx.txt ross-vy.txt *.ucd
+	rm -rf build doc ross_ice_shelf ross.msh ross-h.txt ross-vx.txt ross-vy.txt *.ucd

@@ -10,6 +10,9 @@ square_ice_shelf: square_ice_shelf.cpp
 run: square_ice_shelf
 	./square_ice_shelf
 
+doc: square_ice_shelf.cpp
+	pyccoon -d doc -s ./
+
 clean:
-	rm -rf build square_ice_shelf *.ucd
+	rm -rf build doc square_ice_shelf *.ucd
 

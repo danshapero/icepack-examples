@@ -1,7 +1,12 @@
+# This file is a template for the pyccoon configuration we use for each
+# example.
+
 project:
-   name: Icepack Example 02
+   name:
 verbosity: null
 files:
+   # Files Pyccoon will skip when generating the documentation.
+   # Must be a list of regular expressions, not glob patterns.
    skip:
        - "doc"
        - ".pyccoon.yaml"
@@ -10,7 +15,6 @@ files:
        - ".+\\.pyc"
        - "CMakeLists.txt"
        - "Makefile"
-       - "data.hpp"
    copy:
        - "pyccoon.svg"
        - ".+\\css"
