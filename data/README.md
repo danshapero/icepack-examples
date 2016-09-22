@@ -3,6 +3,7 @@ This repository contains scripts I've used for processing various glaciological 
 Here's hoping I can save you the aggravation of doing this yourself.
 
 The processed data sets are used as inputs for example programs demonstrating the functionality of the glacier flow modelling library [icepack](http://github.com/danshapero/icepack).
+The example codes for icepack are contained in the directory `../examples`.
 
 
 ### DEMs, velocity maps
