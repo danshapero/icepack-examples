@@ -1,4 +1,8 @@
 
+#Ignore any build directories or generated documentation
+build/
+docs/
+
 # Ignore python-generated files
 *.py[cod]
 *.o
@@ -30,6 +34,9 @@
 *.ele
 *.edge
 *.neigh
+
+# Ignore simulation results
+*.ucd
 
 # Ignore any saved plots
 *.png
