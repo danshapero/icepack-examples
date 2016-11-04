@@ -63,3 +63,4 @@ if __name__ == "__main__":
         arcinfo.write(name.lower() + "-err.txt", GridData(x, y, err, -2.0e+9))
 
     velocity_data.close()
+

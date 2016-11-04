@@ -47,3 +47,4 @@ if __name__ == "__main__":
         y = np.linspace(Ymax - imin*dx, Ymax - imax*dx, imin - imax, False)
 
         arcinfo.write(name.lower() + "-s.txt", GridData(x, y, s_region, -999.0))
+

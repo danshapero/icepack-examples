@@ -1,7 +1,5 @@
 
 import os
-import numpy as np
-
 import icepack.util
 
 url = "https://secure.antarctica.ac.uk/data/bedmap2/"
