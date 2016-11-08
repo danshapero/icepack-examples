@@ -49,11 +49,10 @@ int main()
 
   // First is the objective functional, which is the sum of the misfit with the
   // observed data and the regularization.
-  VectorField<2> u(u_guess);
   const auto F =
     [&](const Field<2>& theta) -> double
     {
-      u = ice_shelf.diagnostic_solve(h, theta, u);
+      const VectorField<2> u = ice_shelf.diagnostic_solve(h, theta, u_guess);
       return inverse::square_error(u, u_obs, sigma) + regularizer(theta);
     };
 
@@ -62,18 +61,21 @@ int main()
   const auto dF =
     [&](const Field<2>& theta) -> DualField<2>
     {
+      const VectorField<2> u = ice_shelf.diagnostic_solve(h, theta, u_guess);
+      const DualVectorField<2> du = icepack::inverse::misfit(u, u_obs, sigma);
+      const VectorField<2> lambda = ice_shelf.adjoint_solve(h, theta, u, du);
       const DualField<2>
-        dE = inverse::gradient(ice_shelf, h, theta, u_obs, sigma),
+        dE = inverse::gradient(ice_shelf, h, theta, u_obs, lambda),
         dR = regularizer.derivative(theta);
       return dE + dR;
     };
 
   // Set a stopping criterion.
-  const double tolerance = 1.0e-3 * dealii::GridTools::volume(mesh);
+  const double tolerance = 1.0e-2;
 
   // Solve the inverse problem using LBFGS.
   Field<2> theta = numerics::lbfgs(F, dF, theta_guess, 6, tolerance);
-  u = ice_shelf.diagnostic_solve(h, theta, u);
+  VectorField<2> u = ice_shelf.diagnostic_solve(h, theta, u_guess);
 
   // Write out the results for postprocessing.
   theta.write("theta.ucd", "theta");

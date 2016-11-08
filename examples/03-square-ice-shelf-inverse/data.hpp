@@ -21,6 +21,7 @@ using icepack::FieldType;
 using icepack::Field;
 using icepack::DualField;
 using icepack::VectorField;
+using icepack::DualVectorField;
 using icepack::rho_ice;
 using icepack::rho_water;
 using icepack::gravity;
