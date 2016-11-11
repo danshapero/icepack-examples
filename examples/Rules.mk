@@ -4,7 +4,7 @@
 
 SOURCE=$(PROGRAM).cpp
 
-$(PROGRAM): $(SOURCE)
+$(PROGRAM): $(SOURCE) $(HEADERS)
 	mkdir -p build
 	cd build && cmake -DCMAKE_BUILD_TYPE=Release .. && make
 	mv build/$(PROGRAM) ./
