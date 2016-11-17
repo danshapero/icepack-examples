@@ -34,13 +34,16 @@ int main(int argc, char ** argv)
   const double theta_scale = 10.0;
   double length_scale = 0.0;
   double alpha = length_scale / theta_scale;
-  auto regularizer = inverse::SquareGradient<2>(discretization, alpha);
+  auto regularizer = inverse::SquareGradient<2>(discretization);
 
   const auto F =
     [&](const Field<2>& theta) -> double
     {
       const VectorField<2> u = ice_shelf.diagnostic_solve(h, theta, u_guess);
-      return inverse::square_error(u, u_obs, sigma) + regularizer(theta);
+      const double
+        E = inverse::square_error(u, u_obs, sigma),
+        R = std::pow(alpha, 2) * regularizer(theta);
+      return E + R;
     };
 
   const auto dF =
@@ -51,7 +54,7 @@ int main(int argc, char ** argv)
       const VectorField<2> lambda = ice_shelf.adjoint_solve(h, theta, u, du);
       const DualField<2>
         dE = inverse::gradient(ice_shelf, h, theta, u_obs, lambda),
-        dR = regularizer.derivative(theta);
+        dR = std::pow(alpha, 2) * regularizer.derivative(theta);
       return dE + dR;
     };
 
@@ -62,13 +65,12 @@ int main(int argc, char ** argv)
   const double tolerance = 5.0e-3;
   for (length_scale = length/2; length_scale > dx; length_scale *= 0.95) {
     alpha = length_scale / theta_scale;
-    regularizer = inverse::SquareGradient<2>(discretization, alpha);
     Field<2> theta = icepack::numerics::lbfgs(F, dF, theta_guess, 6, tolerance);
     VectorField<2> u = ice_shelf.diagnostic_solve(h, theta, u_guess);
 
     file << alpha << " "
          << inverse::square_error(u, u_obs, sigma) / area << " "
-         << regularizer(theta) / std::pow(alpha, 2) << std::endl;
+         << regularizer(theta) << std::endl;
 
     theta_guess = theta;
   }

@@ -41,7 +41,7 @@ int main()
   // which regularizes the solution.
   const double theta_scale = 10.0;
   const double alpha = length / theta_scale;
-  auto regularizer = SquareGradient<2>(ice_shelf.get_discretization(), alpha);
+  auto regularizer = SquareGradient<2>(ice_shelf.get_discretization());
 
   // The optimization routines expect to work with functions of a single real
   // variable, so we'll create some lambda functions that project out all the
@@ -53,7 +53,10 @@ int main()
     [&](const Field<2>& theta) -> double
     {
       const VectorField<2> u = ice_shelf.diagnostic_solve(h, theta, u_guess);
-      return inverse::square_error(u, u_obs, sigma) + regularizer(theta);
+      const double
+        E = inverse::square_error(u, u_obs, sigma),
+        R = std::pow(alpha, 2) * regularizer(theta);
+      return E + R;
     };
 
   // Next, we need the derivative of the objective functional so that we can
@@ -66,7 +69,7 @@ int main()
       const VectorField<2> lambda = ice_shelf.adjoint_solve(h, theta, u, du);
       const DualField<2>
         dE = inverse::gradient(ice_shelf, h, theta, u_obs, lambda),
-        dR = regularizer.derivative(theta);
+        dR = std::pow(alpha, 2) * regularizer.derivative(theta);
       return dE + dR;
     };
 
