@@ -35,6 +35,10 @@ docs/
 *.edge
 *.neigh
 
+# Ignore gmsh meshes
+*.geo
+*.msh
+
 # Ignore simulation results
 *.ucd
 
