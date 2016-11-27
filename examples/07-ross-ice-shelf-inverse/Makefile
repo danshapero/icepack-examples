@@ -4,7 +4,7 @@ HEADERS=data.hpp
 ARGS=ross.msh ross-h.txt ross-vx.txt ross-vy.txt ross-err.txt
 include ../Rules.mk
 
-ross.msh: ../../data/meshes/ross2/ross.msh
+ross.msh: ../../data/meshes/ross3/ross.msh
 	cp $< ./
 
 ross-vx.txt ross-vy.txt ross-err.txt: ../../data/measures_antarctica/$@ ross.msh
