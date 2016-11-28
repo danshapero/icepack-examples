@@ -14,7 +14,7 @@ class GeometryError(Exception):
 
 # -----------------------
 if __name__ == "__main__":
-    input_filenames = ["larsen_front0.geojson",
+    input_filenames = ["larsen_front.geojson",
                        "larsen_inflow.geojson",
                        "larsen_side0.geojson",
                        "larsen_side1.geojson"]
