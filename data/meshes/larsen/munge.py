@@ -17,7 +17,9 @@ if __name__ == "__main__":
     input_filenames = ["larsen_front.geojson",
                        "larsen_inflow.geojson",
                        "larsen_side0.geojson",
-                       "larsen_side1.geojson"]
+                       "larsen_side1.geojson",
+                       "larsen_island0.geojson",
+                       "larsen_island1.geojson"]
 
     Xs = []
     for input_filename in input_filenames:
