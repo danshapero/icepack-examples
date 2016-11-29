@@ -41,11 +41,13 @@ def plot_results(x, y, triangles, theta, u, v, filename):
 
     Bs = np.array([B(T) for T in theta])
     ctr1 = ax1.tricontourf(x, y, triangles, Bs,
-                           np.linspace(0.0, 0.75, 26),
+                           np.linspace(0.0, 0.6, 26),
                            extend = "both", cmap = "viridis")
     ax1.set_aspect('equal')
     ax1.set_xlabel("x (km)", fontsize = 16)
     ax1.set_ylabel("y (km)", fontsize = 16)
+    for label in ax1.get_xticklabels():
+        label.set_rotation(90)
     ax1.set_title("Rheology", fontsize = 18)
     cbar1 = fig.colorbar(ctr1, ax = ax1, fraction = 0.046, pad = 0.04)
     cbar1.ax.set_title("MPa years${}^{1/3}$", fontsize = 14)
