@@ -5,7 +5,7 @@ import numpy as np
 import geojson
 
 if __name__ == "__main__":
-    raw_json = geojson.loads(open("larsen_front.geojson", "r").read())
+    raw_json = geojson.loads(open("larsen_front1.geojson", "r").read())
     X0 = np.array(raw_json['features'][0]['geometry']['coordinates'])
 
     x0, y0 = X0[:, 0], X0[:, 1]
@@ -23,6 +23,6 @@ if __name__ == "__main__":
     feature_collection = geojson.FeatureCollection(features,
                                                    crs = raw_json['crs'])
 
-    with open("larsen_streamlines.geojson", "w") as streamlines_file:
+    with open("larsen_streamlines1.geojson", "w") as streamlines_file:
         streamlines_file.write(geojson.dumps(feature_collection, indent = 2))
 

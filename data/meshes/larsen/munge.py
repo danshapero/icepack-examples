@@ -14,7 +14,9 @@ class GeometryError(Exception):
 
 # -----------------------
 if __name__ == "__main__":
-    input_filenames = ["larsen_front.geojson",
+    input_filenames = ["larsen_front0.geojson",
+                       "larsen_gipps_ice_rise.geojson",
+                       "larsen_front1.geojson",
                        "larsen_inflow.geojson",
                        "larsen_side0.geojson",
                        "larsen_side1.geojson",
@@ -32,5 +34,5 @@ if __name__ == "__main__":
                 X = feature['geometry']['coordinates']
                 Xs.append(X)
 
-    Xs, successors = stitch.segment_successors(Xs, tol = 2.0e4)
+    Xs, successors = stitch.segment_successors(Xs, tol = 1.0e4)
     geo.write("larsen.geo", Xs, successors, dx = 5.0e4, quad = True)
