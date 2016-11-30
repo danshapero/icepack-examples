@@ -18,7 +18,6 @@ int main(int argc, char ** argv)
   const std::string err_filename = argv[5];
 
   dealii::Triangulation<2> tria = icepack::read_gmsh_grid<2>(mesh_filename);
-  tria.refine_global(1);
 
   const auto h_obs = readArcAsciiGrid(h_filename);
   const auto vx_obs = readArcAsciiGrid(vx_filename);
@@ -32,7 +31,7 @@ int main(int argc, char ** argv)
   const Field<2> sigma = ice_shelf.interpolate(sigma_obs);
 
   Field<2> theta_guess =
-    ice_shelf.interpolate(dealii::ConstantFunction<2>(265.85));
+    ice_shelf.interpolate(dealii::ConstantFunction<2>(258.15));
   VectorField<2> v_guess =
     ice_shelf.diagnostic_solve(h, theta_guess, vo);
 
@@ -86,7 +85,7 @@ int main(int argc, char ** argv)
   std::ofstream file("lcurve.txt");
 
   const double tolerance = 1.0e-2;
-  for (double L = 4 * dx; L < length / 8; L *= 1.05) {
+  for (double L = 12 * dx; L < length / 4; L *= 1.25) {
     alpha = L / Theta;
     Field<2> theta = icepack::numerics::lbfgs(F, dF, theta_guess, 6, tolerance);
     VectorField<2> v = ice_shelf.diagnostic_solve(h, theta, v_guess);
