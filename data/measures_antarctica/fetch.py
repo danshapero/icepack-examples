@@ -1,10 +1,10 @@
 
-import icepack.util
+from icepack.util import fetch_nsidc
 
-url = "ftp://n5eil01u.ecs.nsidc.org/SAN/MEASURES/NSIDC-0484.001/1996.01.01/"
-big_file   = "antarctica_ice_velocity_450m.nc"
-small_file = "antarctica_ice_velocity_900m.nc"
+url = "https://n5eil01u.ecs.nsidc.org/MEASURES/NSIDC-0484.001/1996.01.01/"
+big_file_name = "antarctica_ice_velocity_450m.nc"
+small_file_name = "antarctica_ice_velocity_900m.nc"
 
-if __name__ == "__main__":
-    icepack.util.fetch(url + big_file, big_file)
-    icepack.util.fetch(url + small_file, small_file)
+fetch_nsidc([url + small_file_name, url + big_file_name],
+            [open(small_file_name, 'wb'), open(big_file_name, 'wb')])
+

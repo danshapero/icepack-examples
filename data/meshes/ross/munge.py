@@ -29,4 +29,4 @@ if __name__ == "__main__":
                 Xs.append(X)
 
     Xs, successors = stitch.segment_successors(Xs)
-    geo.write("ross.geo", Xs, successors, dx = 5.0e4, quad = True)
+    geo.write(open("ross.geo", "w"), Xs, successors, dx = 5.0e4, quad = True)

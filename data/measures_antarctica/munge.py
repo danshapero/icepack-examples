@@ -24,7 +24,7 @@ if __name__ == "__main__":
         regions = geojson.loads(geojson_file.read())
 
     for obj in regions['features']:
-        name = get_feature_name(obj)
+        name = get_feature_name(obj).lower()
         bounding_box = get_feature_bounding_box(obj)
 
         xmin, ymin = bounding_box[0]
@@ -58,9 +58,9 @@ if __name__ == "__main__":
         x = np.linspace(Xmin + jmin * dx, Xmin + jmax * dx, nx, False)
         y = np.linspace(Ymax - imin * dx, Ymax - imax * dx, ny, False)
 
-        arcinfo.write(name.lower() + "-vx.txt", GridData(x, y, vx, -2.0e+9))
-        arcinfo.write(name.lower() + "-vy.txt", GridData(x, y, vy, -2.0e+9))
-        arcinfo.write(name.lower() + "-err.txt", GridData(x, y, err, -2.0e+9))
+        arcinfo.write(open(name + "-vx.txt", "w"), GridData(x, y, vx, -2.0e+9))
+        arcinfo.write(open(name + "-vy.txt", "w"), GridData(x, y, vy, -2.0e+9))
+        arcinfo.write(open(name + "-err.txt", "w"), GridData(x, y, err, -2.0e+9))
 
     velocity_data.close()
 

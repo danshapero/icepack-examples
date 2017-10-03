@@ -10,8 +10,8 @@ if __name__ == "__main__":
 
     x0, y0 = X0[:,0], X0[:,1]
 
-    vx = arcinfo.read("../../measures_antarctica/ross-vx.txt")
-    vy = arcinfo.read("../../measures_antarctica/ross-vy.txt")
+    vx = arcinfo.read(open("../../measures_antarctica/ross-vx.txt", "r"))
+    vy = arcinfo.read(open("../../measures_antarctica/ross-vy.txt", "r"))
 
     mask = vx.data != vx.missing
     Vx, Vy = mask * vx.data, mask * vy.data

@@ -32,7 +32,7 @@ if __name__ == "__main__":
         regions = geojson.loads(geojson_file.read())
 
     for obj in regions['features']:
-        name = get_feature_name(obj)
+        name = get_feature_name(obj).lower()
         bounding_box = get_feature_bounding_box(obj)
 
         xmin, ymin = bounding_box[0]
@@ -50,7 +50,7 @@ if __name__ == "__main__":
         x = np.linspace(Xmin + jmin*dx, Xmin + jmax*dx, jmax - jmin, False)
         y = np.linspace(Ymax - imin*dx, Ymax - imax*dx, imin - imax, False)
 
-        arcinfo.write(name.lower() + "-h.txt",
+        arcinfo.write(open(name + "-h.txt", "w"),
                       GridData(x, y, h_region, no_data))
-        arcinfo.write(name.lower() + "-mask.txt",
+        arcinfo.write(open(name + "-mask.txt", "w"),
                       GridData(x, y, mask_region, no_data))
