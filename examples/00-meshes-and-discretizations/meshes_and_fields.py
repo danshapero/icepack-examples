@@ -27,8 +27,7 @@ print("Number of cells:    {}".format(mesh.n_active_cells()))
 X = [x[0] for x in mesh.get_vertices()]
 Y = [x[1] for x in mesh.get_vertices()]
 
-fig = plt.figure()
-ax = fig.gca()
+fig, ax = plt.subplots()
 ax.scatter(X, Y)
 plt.show(fig)
 
@@ -56,6 +55,7 @@ u = icepack.interpolate(discretization, f)
 
 # Finally, to make sure it's all working right, we can plot it.
 import icepack.plot
-fig = icepack.plot.plot_field(u)
+fig, ax = plt.subplots()
+icepack.plot.plot_field(ax, u)
 plt.show(fig)
 
