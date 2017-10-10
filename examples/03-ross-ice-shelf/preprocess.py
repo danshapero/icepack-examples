@@ -1,5 +1,5 @@
 
-import sys
+import os.path, shutil
 import math
 import numpy as np
 from scipy import spatial
@@ -41,13 +41,33 @@ def fill_missing_data_points(q, mesh, radius = 7.5e3):
     return GridData(q.x, q.y, p, q.missing)
 
 
+def _preprocess(mesh_filename, input_filename, output_filename):
+    mesh = gmsh.read_quad(open(mesh_filename, "r"))
+
+    if not os.path.isfile(output_filename):
+        print("Preprocessing {}.".format(output_filename))
+        q = arcinfo.read(open(input_filename, "r"))
+        Q = fill_missing_data_points(q, mesh)
+        arcinfo.write(open(output_filename, "w"), Q)
+
+
+def main():
+    mesh_filename = "ross.msh"
+    if not os.path.isfile(mesh_filename):
+        shutil.copy("../../data/meshes/ross2/" + mesh_filename, mesh_filename)
+
+    files = {
+        "ross-vx.txt": "measures_antarctica",
+        "ross-vy.txt": "measures_antarctica",
+        "ross-h.txt": "bedmap2"
+    }
+
+    for filename, directory in files.items():
+        input_filename = os.path.join("../../data/", directory, filename)
+        output_filename = filename
+        _preprocess(mesh_filename, input_filename, output_filename)
+
+
 if __name__ == "__main__":
-    mesh_filename = sys.argv[1]
-    input_filename = sys.argv[2]
-    output_filename = sys.argv[3]
+    main()
 
-    mesh = gmsh.read_quad(mesh_filename)
-
-    q = arcinfo.read(input_filename)
-    Q = fill_missing_data_points(q, mesh)
-    arcinfo.write(output_filename, Q)
