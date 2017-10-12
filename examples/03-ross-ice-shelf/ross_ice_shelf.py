@@ -27,7 +27,7 @@ h = icepack.interpolate(discretization, h_obs)
 
 # Make a dumb guess for the ice temperature. In "real life", you would want to
 # use an inverse method that would tune the temperature to fit observations.
-theta = icepack.interpolate(discretization, lambda x: 263.0)
+theta = icepack.interpolate(discretization, lambda x: 253.0)
 
 # Solve for the ice velocity, assuming this guess for the temperature.
 dirichlet_boundary_ids = {2, 3, 4, 5}
